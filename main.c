@@ -173,13 +173,6 @@ void Listar(void){
     fclose(arq);//fecha o arquivo agenda.txt
 }
 
-/*========== Sobre os Autores ================*/
-void Sobre(void){
-    printf("\n\n\t\tAGENDA EM LINGUAGUEM C\n\n");
-    printf("\tTrabalho para obtenção de nota Parcial\n\tNa Disciplina de Algoritmos e Estrutura de Dados\n");
-    printf("\tIntegrantes da Equipe:\n\t\tRodrigo Alves\n\t\tAdailton\n\t\tEduardo Ramos\n\t\tRoseane Brito");
-    getch();//espera que o usuário pressione uma tecla
-}
 
 /*=====================   Menu   =======================*/
 void menu(void){
@@ -188,7 +181,7 @@ void menu(void){
         system("cls");// limpar tela
         printf("\n\n\t\tAGENDA EM LINGUAGUEM C\n");
         printf("\n 1 = Incluir\n 2 = Listar\n 3 = Organizar por ordem alfabetica\n 4 = Pesquisar por nome\n");
-        printf(" 5 = Formatar lista\n 6 = Sobre\n 7 = Voltar\n\n");
+        printf(" 5 = Formatar lista\n 6 = Voltar\n\n");
         op = getch();
         switch(op){
             case '1':
@@ -206,11 +199,8 @@ void menu(void){
             case '5':
                 Formata();
                 break;
+
             case '6':
-                system("cls");
-                Sobre();
-                break;
-            case '7':
                 system("cls");
                 main();
                 break;
@@ -222,13 +212,11 @@ void menu(void){
     while (op);
 }
 
-/*=========== Função Principal ================*/
+/*Função main*/
 int main (){
     int var;
     system("title AGENDA");
-    system("color 1f");// Define a o plano de Fundo Azul Marinho e o texto em Branco
-    setlocale(LC_ALL, "Portuguese");//Define no console o idioma Portugues
-    printf("\n\n\t\tAGENDA EM LINGUAGUEM C\n\n");
+    printf("\n\nAgenda de contatos\n\n");
     printf("\tVeja todas as funções disponiveis no menu.\n");
     printf("\tUse os numeros para selecionar a opção desejada.\n");
     printf("\tPressione qualquer tecla para continuar ou\n\tEspaço para sair do programa agora.\n\t");
