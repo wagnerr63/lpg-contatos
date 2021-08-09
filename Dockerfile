@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 WORKDIR /usr/src/app
 
-COPY app/ .
+COPY . .
 
 RUN apt-get update
 RUN apt-get install build-essential -y && \
