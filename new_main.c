@@ -13,7 +13,7 @@ typedef struct
 
 // <---------------------------------------------->
 // Repository
-Contact Contacts[10];
+Contact Contacts[];
 
 void initMockRepository()
 {
@@ -23,14 +23,19 @@ void initMockRepository()
         strcpy(Contacts[0].Phone, "47997922841");
 }
 
+Contact *findAll() {
+        return Contacts;
+}
+
 // <---------------------------------------------->
 
 int main()
 {
-
         initMockRepository();
 
+        Contact *teste = findAll();
+
         // printf() displays the string inside quotation
-        printf("%s", Contacts[0].Name);
+        printf("%s", teste[0].Name);
         return 0;
 }
