@@ -7,6 +7,7 @@
 #define TAM 100         //TAM recebe o valor de 100 inteiros
 
 typedef struct Contact{
+		int id;
         char nome[50];
         char fone[17];
         char email[80];
@@ -18,7 +19,8 @@ void Listar(void);     // função para Mostrar os contatos ja incluidos
 void Organizar(void);  // função para Colocar em ordem os contatos da agenda
 void Pesquisar(void);  // função para Pesquisar contatos
 char AddMais();        // função para Adicionar mais contatos na agenda
-void Formata(void);    // função para Apaga todos os contatos na agenda
+int Formata();    // função para Apaga todos os contatos na agenda
+int getID();
 
 /*============  Variaveis Globais  =============*/
 static int qtd = 0;     // qtd é uma variavel do tipo estatica que conta a quantidade de contatos incritos
@@ -38,12 +40,15 @@ void Incluir(void){
         exit(1);//caso esse erro ocorra este comando encerra o programa
      }
      while ((cont < TAM) && (op == 's')){
+     	   
            printf (" Digite o nome: ");
            gets(max[cont].nome);
            printf (" Digite o numero: ");
            gets(max[cont].fone);
            printf (" Digite o E-mail: ");
            gets(max[cont].email);
+           
+           if(max[cont].email)
 
            /* fwrite grava 1 contato na struct Contact
            essa lilha pode ser escrita da seguinte forma:
@@ -72,14 +77,35 @@ char AddMais() {
 }
 
 /*=====================  Apagar tudo  ====================*/
-void Formata() {
-    /* w+ abre um arquivo para leitura e escrita.
-    Se o arquivo não existir, o sistema operacional tentará criá-lo.
-    Se o arquivo existir, todo o seu conteúdo será substituído pelo novo conteúdo.*/
-    arq = fopen("agenda.txt","w+"); //recria um arquivo limpo
-    printf("\n\tLista limpa!\n ");
-    fclose(arq);//fecha o arquivo agenda.txt
-    getch();// espera que o usuário pressione uma tecla
+int deleta(int id){
+	FILE *arq = fopen("agenda.txt","r");
+	
+    struct Contact c1;
+    int resultado;
+    if (arq != NULL) {
+    	FILE *arquivo_aux = fopen("contatos_aux.txt","a");
+    	rewind(arq);
+        
+        while(!feof(arq)){
+        	fscanf(arq,"%d %s %s %s ",&c1.id, &c1.nome, &c1.fone, &c1.email);
+        	if(c1.id == id){
+        		resultado != 1;
+         		continue;
+			}
+			fprintf(arquivo_aux, "%d %s %s %s \n",c1.id, c1.nome, c1.fone, c1.email);
+        }
+        
+    	fclose(arquivo_aux);
+    	fclose(arq);
+    	remove("agenda.txt");
+    	rename("contatos_aux.txt", "agenda.txt");
+	}
+	else {
+		fclose(arq);
+		resultado = 0;
+	}
+	
+	return resultado;
 }
 
 /*=============  Organizar em ordem alfabetica  ==========*/
@@ -162,6 +188,7 @@ void Listar(void){
     }
     retorno = fread(&max[i], sizeof(contatos), 1, arq);//fread le apenas 1 contato do arquivo
     while (retorno == 1){ //o retorno recebe a quantidade de contatos lidos no fread
+      printf("\n ID......:%d",max[i].id);
       printf("\n Nome....: %s",max[i].nome);
       printf("\n Fone....: %s",max[i].fone);
       printf("\n E-mail..: %s\n",max[i].email);
@@ -176,12 +203,13 @@ void Listar(void){
 
 /*=====================   Menu   =======================*/
 void menu(void){
+	int ident;
     char op;//variavel de opção
     do{
         system("cls");// limpar tela
         printf("\n\n\t\tAGENDA EM LINGUAGUEM C\n");
         printf("\n 1 = Incluir\n 2 = Listar\n 3 = Organizar por ordem alfabetica\n 4 = Pesquisar por nome\n");
-        printf(" 5 = Formatar lista\n 6 = Voltar\n\n");
+        printf(" 5 = Deletar contato\n 6 = Voltar\n\n");
         op = getch();
         switch(op){
             case '1':
@@ -197,7 +225,21 @@ void menu(void){
                 Pesquisar();
                 break;
             case '5':
-                Formata();
+            	
+        	printf("\nInforme o ID do contato que quer excluir: \n");
+        	scanf("%d",&ident);
+        	
+        	
+			int sucesso = deleta(ident);
+			//sucesso == 1 ? printf("sucesso") : printf("fracasso"); // Validar deleção
+			
+			if (sucesso == 1) {
+				printf("Contato deletado com sucesso!\n\n");
+			}
+			else {
+				printf("ID incorreto! Nenhum contato foi excluído.\n\n");
+			}
+            	
                 break;
 
             case '6':
@@ -210,6 +252,28 @@ void menu(void){
         }
     }
     while (op);
+}
+int getID() {
+	FILE *arq = fopen("agenda.txt","r");
+    
+    struct Contact c1;
+    
+	if (arq != NULL) {
+		
+		while(!feof(arq)){
+			fscanf(arq,"%i %s %d %s ",&c1.id, &c1.nome, &c1.fone, &c1.email);
+		}
+		
+		if(feof(arq)){
+			int greatestId = c1.id;
+			fclose(arq);
+			return greatestId;
+		}
+	}
+	else {
+		fclose(arq);
+		return 0;
+	}
 }
 
 /*Função main*/
