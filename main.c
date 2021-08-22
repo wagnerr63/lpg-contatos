@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "contato.h"
-#include "arquivos.h"
+#include "contact.h"
+#include "repository.h"
 
 void limparTela();
 void limparBuffer();
@@ -22,45 +22,45 @@ int main() {
 		scanf("%c", &escolha);
 		limparTela();
 		
-		// -- Listar contatos -- //
+		// Listar
 		if (escolha == '1') {
-			listarContatos();
+			listAll();
 
 			printf("Pressione Enter para continuar ");
 			pausa();
 			limparTela();
 		}
 		
-		// -- Criar contato -- //
+		// Criar
 		else if (escolha == '2') {
 			limparTela();
 			
 			printf("Informe os dados do novo contato:\n");
-			struct contato c1;
+			struct contact c1;
 
 			printf("Nome: ");
 			limparBuffer();
-			scanf("%s", &c1.nome);
+			scanf("%s", &c1.name);
 
 			printf("Telefone: ");
 			limparBuffer();
-			scanf("%i", &c1.telefone);
+			scanf("%s", &c1.telefone);
 			
 			printf("Email: ");
 			limparBuffer();
 			scanf("%s", &c1.email);
 			
-			int sucesso = criarContato(c1);
+			int sucesso = create(c1);
 			//sucesso == 1 ? printf("sucesso") : printf("fracasso"); // Validar contato
 			
 			limparTela();
 		}
 		
-		// -- Deletar contato -- //
+		// Deletar
 		else if (escolha == '3') {
 			limparTela();
 			
-			listarContatos();
+			listAll();
 			
 			int id;
         	printf("\nInforme o ID do contato que quer excluir: \n");
@@ -68,7 +68,7 @@ int main() {
         	
         	limparTela();
         	
-			int sucesso = deletarContato(id);
+			int sucesso = delete(id);
 			//sucesso == 1 ? printf("sucesso") : printf("fracasso"); // Validar deleção
 			
 			if (sucesso == 1) {
@@ -83,9 +83,9 @@ int main() {
 			limparTela();
 		}
 		
-		// -- Editar -- //
+		// Editar
 		else if (escolha == '4') {
-			listarContatos();
+			listAll();
 			printf("\nInforme o ID do contato que quer editar: \n");
 			int id;
 			scanf("%i",&id);

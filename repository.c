@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "contato.h"
+#include "contact.h"
 
-int criarContato(struct contato c1) {
-	FILE *arquivo = fopen("contatos.txt","a");
+int create(struct contact c1) {
+	FILE *arquivo = fopen("contacts.txt","a");
 	
 	int resultado;
 	if (arquivo != NULL) {
 		c1.id = getID() + 1;
-		int retorno = fprintf(arquivo, "%i %s %i %s\n", c1.id, c1.nome, c1.telefone, c1.email);
+		int retorno = fprintf(arquivo, "%i %s %s %s\n", c1.id, c1.name, c1.telefone, c1.email);
 
 		if (retorno == EOF) {
 			// Fracasso na grava??o
@@ -28,14 +28,14 @@ int criarContato(struct contato c1) {
 }
 
 
-void listarContatos() {
-	FILE *arquivo = fopen("contatos.txt","r");
+void listAll() {
+	FILE *arquivo = fopen("contacts.txt","r");
 	
 	if (arquivo != NULL) {
-		struct contato c1;
+		struct contact c1;
 	    while(!feof(arquivo)){
-	        fscanf(arquivo,"%i %s %d %s ", &c1.id, &c1.nome, &c1.telefone, &c1.email);
-	        printf("ID: %i \nNome: %s \nTelefone: %d \nEmail: %s\n\n", c1.id, c1.nome, c1.telefone, c1.email);
+	        fscanf(arquivo,"%i %s %s %s ", &c1.id, &c1.name, &c1.telefone, &c1.email);
+	        printf("ID: %i \nNome: %s \nTelefone: %s \nEmail: %s\n\n", c1.id, c1.name, c1.telefone, c1.email);
 	    }
 	}
 	else {
@@ -46,28 +46,28 @@ void listarContatos() {
 }
 
 
-int deletarContato(int id){
-	FILE *arquivo = fopen("contatos.txt","r");
+int delete(int id){
+	FILE *arquivo = fopen("contacts.txt","r");
 	
-    struct contato c1;
+    struct contact c1;
     int resultado;
     if (arquivo != NULL) {
     	FILE *arquivo_aux = fopen("contatos_aux.txt","a");
     	rewind(arquivo);
         
         while(!feof(arquivo)){
-        	fscanf(arquivo,"%i %s %d %s ",&c1.id, &c1.nome, &c1.telefone, &c1.email);
+        	fscanf(arquivo,"%i %s %s %s ",&c1.id, &c1.name, &c1.telefone, &c1.email);
         	if(c1.id == id){
         		resultado = 1;
          		continue;
 			}
-			fprintf(arquivo_aux, "%i %s %i %s \n",c1.id, c1.nome, c1.telefone, c1.email);
+			fprintf(arquivo_aux, "%i %s %s %s \n",c1.id, c1.name, c1.telefone, c1.email);
         }
         
     	fclose(arquivo_aux);
     	fclose(arquivo);
-    	remove("contatos.txt");
-    	rename("contatos_aux.txt", "contatos.txt");
+    	remove("contacts.txt");
+    	rename("contatos_aux.txt", "contacts.txt");
 	}
 	else {
 		fclose(arquivo);
@@ -79,16 +79,16 @@ int deletarContato(int id){
 
 
 int editarContato(int id){
-	FILE *arquivo = fopen("contatos.txt","r");
+	FILE *arquivo = fopen("contacts.txt","r");
 	
-    struct contato c1;
+    struct contact c1;
     int resultado;
     if (arquivo != NULL) {
     	FILE *arquivo_aux = fopen("contatos_aux.txt","a");
     	rewind(arquivo);
         
         while(!feof(arquivo)){
-        	fscanf(arquivo,"%i %s %d %s ",&c1.id, &c1.nome, &c1.telefone, &c1.email);
+        	fscanf(arquivo,"%i %s %s %s ",&c1.id, &c1.name, &c1.telefone, &c1.email);
         	
         	if(c1.id == id){
         		resultado = 1;
@@ -100,12 +100,12 @@ int editarContato(int id){
 				{
 				case '1':
 					printf("Insira o nome atualizada!");
-					scanf("%s", &c1.nome);
+					scanf("%s", &c1.name);
 					break;
 
 				case '2':
 					printf("Insira o telefone atualizado!");
-					scanf("%i", &c1.telefone);
+					scanf("%s", &c1.telefone);
 					break;
 
 				case '3':
@@ -114,13 +114,13 @@ int editarContato(int id){
 					break;
 				}
 			}
-			fprintf(arquivo_aux, "%i %s %i %s \n",c1.id, c1.nome, c1.telefone, c1.email);
+			fprintf(arquivo_aux, "%i %s %s %s \n",c1.id, c1.name, c1.telefone, c1.email);
         }
         
     	fclose(arquivo_aux);
     	fclose(arquivo);
-    	remove("contatos.txt");
-    	rename("contatos_aux.txt", "contatos.txt");
+    	remove("contacts.txt");
+    	rename("contatos_aux.txt", "contacts.txt");
 	}
 	else {
 		fclose(arquivo);
@@ -132,14 +132,14 @@ int editarContato(int id){
 
 
 int getID() {
-	FILE *arquivo = fopen("contatos.txt","r");
+	FILE *arquivo = fopen("contacts.txt","r");
     
-    struct contato c1;
+    struct contact c1;
     
 	if (arquivo != NULL) {
 		
 		while(!feof(arquivo)){
-			fscanf(arquivo,"%i %s %d %s ",&c1.id, &c1.nome, &c1.telefone, &c1.email);
+			fscanf(arquivo,"%i %s %s %s ",&c1.id, &c1.name, &c1.telefone, &c1.email);
 		}
 		
 		if(feof(arquivo)){
