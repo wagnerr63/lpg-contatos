@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "contact.h"
 #include "repository.h"
+#include <string.h>
 
 void cleanScreen();
 void cleanBuffer();
@@ -45,9 +46,22 @@ int main() {
 			cleanBuffer();
 			scanf("%s", &c1.phone);
 			
-			printf("Email: ");
-			cleanBuffer();
-			scanf("%s", &c1.email);
+			do{
+				printf("Email: ");
+				cleanBuffer();
+				scanf("%s", &c1.email);
+
+  				int is_email = 1;
+				
+				if(strchr(c1.email, '@') != NULL || strchr(c1.email, '.') != NULL){
+					is_email = 0;
+				}
+
+				if(is_email==0){
+					printf('Digite um e-mail válido!\n\n');
+				}
+
+			}while(is_email==0);
 			
 			int success = createContact(c1);
 			//Valida��o se a inser��o de contatos foi bem sucedida
