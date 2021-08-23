@@ -1,15 +1,14 @@
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "contact.h"
 #include "repository.h"
 
-void limparTela();
-void limparBuffer();
+void cleanScreen();
+void cleanBuffer();
 void pausa();
 
 int main() {
-	char escolha;
+	char optMenu;
 	
 	while (1) {
 		printf("--- Agenda de contatos ---\n\n");
@@ -18,47 +17,47 @@ int main() {
 		printf("3. Deletar contato\n");
 		printf("4. Editar contato\n");
 		printf("5. Sair\n\n");
-		limparBuffer();
-		scanf("%c", &escolha);
-		limparTela();
+		cleanBuffer();
+		scanf("%c", &optMenu);
+		cleanScreen();
 		
-		// Listar
-		if (escolha == '1') {
+		// Listagem de contatos
+		if (optMenu == '1') {
 			listAll();
 
 			printf("Pressione Enter para continuar ");
 			pausa();
-			limparTela();
+			cleanScreen();
 		}
 		
-		// Criar
-		else if (escolha == '2') {
-			limparTela();
+		// Cria��o de contato - E-mail sem @ n�o ser�o aceitos
+		else if (optMenu == '2') {
+			cleanScreen();
 			
 			printf("Informe os dados do novo contato:\n");
 			struct contact c1;
 
 			printf("Nome: ");
-			limparBuffer();
+			cleanBuffer();
 			scanf("%s", &c1.name);
 
 			printf("Telefone: ");
-			limparBuffer();
-			scanf("%s", &c1.telefone);
+			cleanBuffer();
+			scanf("%s", &c1.phone);
 			
 			printf("Email: ");
-			limparBuffer();
+			cleanBuffer();
 			scanf("%s", &c1.email);
 			
-			int sucesso = create(c1);
-			//sucesso == 1 ? printf("sucesso") : printf("fracasso"); // Validar contato
+			int success = createContact(c1);
+			//Valida��o se a inser��o de contatos foi bem sucedida
 			
-			limparTela();
+			cleanScreen();
 		}
 		
-		// Deletar
-		else if (escolha == '3') {
-			limparTela();
+		// Dele��o de contatos
+		else if (optMenu == '3') {
+			cleanScreen();
 			
 			listAll();
 			
@@ -66,12 +65,12 @@ int main() {
         	printf("\nInforme o ID do contato que quer excluir: \n");
         	scanf("%i",&id);
         	
-        	limparTela();
+        	cleanScreen();
         	
-			int sucesso = delete(id);
-			//sucesso == 1 ? printf("sucesso") : printf("fracasso"); // Validar deleção
+			int success = deleteContact(id);
+			//Valida se a dele��o foi bem sucedida
 			
-			if (sucesso == 1) {
+			if (success == 1) {
 				printf("Contato deletado com sucesso!\n\n");
 			}
 			else {
@@ -80,21 +79,21 @@ int main() {
 			
 			printf("Pressione Enter para continuar ");
 			pausa();
-			limparTela();
+			cleanScreen();
 		}
 		
-		// Editar
-		else if (escolha == '4') {
+		// Edi��o de contatos
+		else if (optMenu == '4') {
 			listAll();
 			printf("\nInforme o ID do contato que quer editar: \n");
 			int id;
 			scanf("%i",&id);
-			limparBuffer();
-        	limparTela();
+			cleanBuffer();
+        	cleanScreen();
         	
-			int sucesso = editarContato(id);
+			int success = editContact(id);
 			
-			if (sucesso == 1) {
+			if (success == 1) {
 				printf("Contato editado com sucesso!\n\n");
 			}
 			else {
@@ -103,10 +102,10 @@ int main() {
 			
 			printf("Pressione Enter para continuar ");
 			pausa();
-			limparTela();
+			cleanScreen();
 		}
-		else if (escolha == '5') {
-			limparTela();
+		else if (optMenu == '5') {
+			cleanScreen();
 			exit(0);
 		}
 	}
@@ -115,7 +114,7 @@ int main() {
 }
 
 
-void limparTela() {
+void cleanScreen() {
 	#ifdef __WIN32__
     	system("cls");
 	#endif
@@ -126,7 +125,7 @@ void limparTela() {
 }
 
 
-void limparBuffer() {
+void cleanBuffer() {
    #ifdef __WIN32__
     	fflush(stdin);
    #endif
@@ -138,6 +137,6 @@ void limparBuffer() {
 
 
 void pausa() {
-	limparBuffer();
+	cleanBuffer();
 	char pausa = getchar();
 }
