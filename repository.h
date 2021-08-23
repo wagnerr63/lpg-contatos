@@ -1,4 +1,5 @@
 void listAll();
-int create(struct contact c1);
-int delete(int id);
+int createContact(struct contact c1);
+int editContact(int id);
+int deleteContact(int id);
 int getID();
