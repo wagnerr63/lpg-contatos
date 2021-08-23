@@ -55,12 +55,12 @@ int main() {
 				scanf("%s", &c1.email);
 				is_email = 0;
 				
-				if(strchr(c1.email, '@') != NULL || strchr(c1.email, '.') != NULL){
+				if(strchr(c1.email, '@') == NULL || strchr(c1.email, '.') == NULL){
 					is_email = 0;
 				}
 
 				if(is_email==0){
-					printf('Digite um e-mail válido!\n\n');
+					printf("Digite um e-mail válido!\n\n");
 				}
 
 			}while(is_email==0);
