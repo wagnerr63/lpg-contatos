@@ -53,7 +53,7 @@ int main() {
 				printf("Email: ");
 				cleanBuffer();
 				scanf("%s", &c1.email);
-				is_email = 0;
+				is_email = 1;
 				
 				if(strchr(c1.email, '@') == NULL || strchr(c1.email, '.') == NULL){
 					is_email = 0;
