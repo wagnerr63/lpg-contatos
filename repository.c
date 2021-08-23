@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "contact.h"
+#include <string.h>
 
 int createContact(struct contact c1) {
 	FILE *archive = fopen("contacts.txt","a");
@@ -96,6 +97,7 @@ int editContact(int id){
 				char info;
 				scanf("%c", &info);
 				fflush(stdin);
+				int is_email = 1;
 				switch (info)
 				{
 				case '1':
@@ -109,11 +111,11 @@ int editContact(int id){
 					break;
 
 				case '3':
+
 					do{
 						printf("Insira o e-mail!");
 						scanf("%s", &c1.email);
-
-						int is_email = 1;
+						is_email = 1;
 						
 						if(strchr(c1.email, '@') != NULL || strchr(c1.email, '.') != NULL){
 							is_email = 0;

@@ -46,12 +46,14 @@ int main() {
 			cleanBuffer();
 			scanf("%s", &c1.phone);
 			
+
+  			int is_email = 1;
+
 			do{
 				printf("Email: ");
 				cleanBuffer();
 				scanf("%s", &c1.email);
-
-  				int is_email = 1;
+				is_email = 0;
 				
 				if(strchr(c1.email, '@') != NULL || strchr(c1.email, '.') != NULL){
 					is_email = 0;
