@@ -2,96 +2,96 @@
 #include <stdlib.h>
 #include "contact.h"
 
-int create(struct contact c1) {
-	FILE *arquivo = fopen("contacts.txt","a");
+int createContact(struct contact c1) {
+	FILE *archive = fopen("contacts.txt","a");
 	
-	int resultado;
-	if (arquivo != NULL) {
+	int result;
+	if (archive != NULL) {
 		c1.id = getID() + 1;
-		int retorno = fprintf(arquivo, "%i %s %s %s\n", c1.id, c1.name, c1.telefone, c1.email);
+		int returnRegister = fprintf(archive, "%i %s %s %s\n", c1.id, c1.name, c1.phone, c1.email);
 
-		if (retorno == EOF) {
-			// Fracasso na grava??o
-			resultado = 0;
+		if (returnRegister == EOF) {
+			// retorna falha ao gravar
+			result = 0;
 		}
 		else {
-			// Sucesso na grava??o
-			resultado = 1;
+			// retorna sucesso ao gravar
+			result = 1;
 		}
-		fclose(arquivo);
+		fclose(archive);
 		
 	} else {
-		// Fracasso no acesso ao arquivo
-		resultado = 0;
+		// retorna falha ao acessar o arquivo
+		result = 0;
 	}
-	return resultado;
+	return result;
 }
 
 
 void listAll() {
-	FILE *arquivo = fopen("contacts.txt","r");
+	FILE *archive = fopen("contacts.txt","r");
 	
-	if (arquivo != NULL) {
+	if (archive != NULL) {
 		struct contact c1;
-	    while(!feof(arquivo)){
-	        fscanf(arquivo,"%i %s %s %s ", &c1.id, &c1.name, &c1.telefone, &c1.email);
-	        printf("ID: %i \nNome: %s \nTelefone: %s \nEmail: %s\n\n", c1.id, c1.name, c1.telefone, c1.email);
+	    while(!feof(archive)){
+	        fscanf(archive,"%i %s %s %s ", &c1.id, &c1.name, &c1.phone, &c1.email);
+	        printf("ID: %i \nNome: %s \nTelefone: %s \nEmail: %s\n\n", c1.id, c1.name, c1.phone, c1.email);
 	    }
 	}
 	else {
 		printf("N?o existem contatos para listar!\n\n");
 	}
     
-    fclose(arquivo);
+    fclose(archive);
 }
 
 
-int delete(int id){
-	FILE *arquivo = fopen("contacts.txt","r");
+int deleteContact(int id){
+	FILE *archive = fopen("contacts.txt","r");
 	
     struct contact c1;
-    int resultado;
-    if (arquivo != NULL) {
-    	FILE *arquivo_aux = fopen("contatos_aux.txt","a");
-    	rewind(arquivo);
+    int result;
+    if (archive != NULL) {
+    	FILE *auxArchive = fopen("contatos_aux.txt","a");
+    	rewind(archive);
         
-        while(!feof(arquivo)){
-        	fscanf(arquivo,"%i %s %s %s ",&c1.id, &c1.name, &c1.telefone, &c1.email);
+        while(!feof(archive)){
+        	fscanf(archive,"%i %s %s %s ",&c1.id, &c1.name, &c1.phone, &c1.email);
         	if(c1.id == id){
-        		resultado = 1;
+        		result = 1;
          		continue;
 			}
-			fprintf(arquivo_aux, "%i %s %s %s \n",c1.id, c1.name, c1.telefone, c1.email);
+			fprintf(auxArchive, "%i %s %s %s \n",c1.id, c1.name, c1.phone, c1.email);
         }
         
-    	fclose(arquivo_aux);
-    	fclose(arquivo);
+    	fclose(auxArchive);
+    	fclose(archive);
     	remove("contacts.txt");
     	rename("contatos_aux.txt", "contacts.txt");
 	}
 	else {
-		fclose(arquivo);
-		resultado = 0;
+		fclose(archive);
+		result = 0;
 	}
 	
-	return resultado;
+	return result;
 }
 
 
-int editarContato(int id){
-	FILE *arquivo = fopen("contacts.txt","r");
+int editContact(int id){
+	FILE *archive = fopen("contacts.txt","r");
 	
     struct contact c1;
-    int resultado;
-    if (arquivo != NULL) {
-    	FILE *arquivo_aux = fopen("contatos_aux.txt","a");
-    	rewind(arquivo);
+    int result;
+    if (archive != NULL) {
+    	FILE *auxArchive = fopen("contatos_aux.txt","a");
+    	rewind(archive);
         
-        while(!feof(arquivo)){
-        	fscanf(arquivo,"%i %s %s %s ",&c1.id, &c1.name, &c1.telefone, &c1.email);
+        while(!feof(archive)){
+        	fscanf(archive,"%i %s %s %s ",&c1.id, &c1.name, &c1.phone, &c1.email);
         	
         	if(c1.id == id){
-        		resultado = 1;
+        		result = 1;
 				printf("Qual informação gostaria de editar?\n1. Nome\n2. Telefone\n3. E-mail\n");
 				char info;
 				scanf("%c", &info);
@@ -105,7 +105,7 @@ int editarContato(int id){
 
 				case '2':
 					printf("Insira o telefone atualizado!");
-					scanf("%s", &c1.telefone);
+					scanf("%s", &c1.phone);
 					break;
 
 				case '3':
@@ -114,42 +114,42 @@ int editarContato(int id){
 					break;
 				}
 			}
-			fprintf(arquivo_aux, "%i %s %s %s \n",c1.id, c1.name, c1.telefone, c1.email);
+			fprintf(auxArchive, "%i %s %s %s \n",c1.id, c1.name, c1.phone, c1.email);
         }
         
-    	fclose(arquivo_aux);
-    	fclose(arquivo);
+    	fclose(auxArchive);
+    	fclose(archive);
     	remove("contacts.txt");
     	rename("contatos_aux.txt", "contacts.txt");
 	}
 	else {
-		fclose(arquivo);
-		resultado = 0;
+		fclose(archive);
+		result = 0;
 	}
 	
-	return resultado;
+	return result;
 }
 
 
 int getID() {
-	FILE *arquivo = fopen("contacts.txt","r");
+	FILE *archive = fopen("contacts.txt","r");
     
     struct contact c1;
     
-	if (arquivo != NULL) {
+	if (archive != NULL) {
 		
-		while(!feof(arquivo)){
-			fscanf(arquivo,"%i %s %s %s ",&c1.id, &c1.name, &c1.telefone, &c1.email);
+		while(!feof(archive)){
+			fscanf(archive,"%i %s %s %s ",&c1.id, &c1.name, &c1.phone, &c1.email);
 		}
 		
-		if(feof(arquivo)){
+		if(feof(archive)){
 			int greatestId = c1.id;
-			fclose(arquivo);
+			fclose(archive);
 			return greatestId;
 		}
 	}
 	else {
-		fclose(arquivo);
+		fclose(archive);
 		return 0;
 	}
 }
